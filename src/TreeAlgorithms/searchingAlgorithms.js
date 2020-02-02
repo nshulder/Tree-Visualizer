@@ -1,32 +1,38 @@
 export function getDfsAnimations(tree) {
 	const animations = [];
-	dfsHelper(tree, animations);
+	dfsHelper(tree, animations, 0);
 	return animations;
 }
 
-function dfsHelper(tree, animations) {
-	/*
-		Not totally working yet....
-	*/
-	let i = 0;
-    let leaf = 0;
-    while (i < tree.length) {
-        if (i < tree.length / 2) { // not leaf node, can be advanced
-            i = 2 * i + 1; // try left child
-        } else { // leaf node, jump
-            let k = 1;
-            while (true) {
-                i = (i - 1) / 2; // jump to the parent
-                const p = k * 2;
-                if (leaf % p == k - 1) break; // correct number of jumps found
-                k = p;
-            }
-            // after we jumped to the parent, go to the right child
-            i = 2 * i + 2;
-            leaf++; // next leaf, please
-        }
-        console.log(i);
-    	animations.push(i);
-    }
-    return;
+function dfsHelper(tree, animations, index) {
+	if(index >= 0 && tree[index] != null) {
+		dfsHelper(tree, animations, getLeftChild(tree, index));
+		animations.push(index);
+		dfsHelper(tree, animations, getRightChild(tree, index));
+	}
+}
+
+function getLeftChild(tree, index) {
+	if(tree[index]!=null && (2*index+1) < tree.length) {
+        return (2*index)+1;
+	}
+    // left child doesn't exist
+    return -1;
+}
+
+function getRightChild(tree, index) {
+	if(tree[index]!=null && (2*(index+1)) < tree.length) {
+        return (2*(index+1));
+	}
+    // right child doesn't exist
+    return -1;
+}
+
+
+export function getBfsAnimations(tree) {
+	const animations = [];
+	for(let i = 0; i < tree.length; i++) {
+		animations.push(i);
+	}
+	return animations;
 }

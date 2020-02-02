@@ -1,6 +1,6 @@
 import React from 'react';
 import './TreeVisualizer.css'
-import {getDfsAnimations} from '../TreeAlgorithms/searchingAlgorithms'
+import {getDfsAnimations, getBfsAnimations} from '../TreeAlgorithms/searchingAlgorithms'
 
 
 export default class TreeVisualizer extends React.Component {
@@ -18,7 +18,7 @@ export default class TreeVisualizer extends React.Component {
 
   	resetTree() {
     	const tree = [];
-    	for (let i = 0; i < 6; i++) {
+    	for (let i = 0; i < 7; i++) {
       		tree.push(randomIntFromInterval(1, 1000));
     	}	
     	this.setState({tree});
@@ -29,8 +29,24 @@ export default class TreeVisualizer extends React.Component {
   		for (let i = 0; i < animations.length; i++) {
   			const treeNodes = document.getElementsByClassName('tree-node');
   			const nodeIdx = animations[i];
+  			console.log(nodeIdx);
   			const nodeStyle = treeNodes[nodeIdx].style;
-  			nodeStyle.backgroundColor = '#66c2ff';
+  			setTimeout(() => {
+  				nodeStyle.backgroundColor = '#66c2ff';
+  			} , 2000);
+  		}
+  	}
+
+  	bfs() {
+  		const animations = getBfsAnimations(this.state.tree);
+  		for (let i = 0; i < animations.length; i++) {
+  			const treeNodes = document.getElementsByClassName('tree-node');
+  			const nodeIdx = animations[i];
+  			console.log(nodeIdx);
+  			const nodeStyle = treeNodes[nodeIdx].style;
+  			setTimeout(() => {
+  				nodeStyle.backgroundColor = '#66c2ff';
+  			} , 2000);
   		}
   	}
 
@@ -47,6 +63,8 @@ export default class TreeVisualizer extends React.Component {
   				))}
   			<button onClick={() => this.resetTree()}>Generate New Tree</button>
   			<button onClick={() => this.dfs()}>DFS</button>
+  			<button onClick={() => this.bfs()}>BFS</button>
+
   			</div>	
   			);
   	}
