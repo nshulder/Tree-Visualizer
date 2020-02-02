@@ -1,14 +1,16 @@
-export function getDfsAnimations(tree) {
+export function getDfsAnimations(tree, goal) {
 	const animations = [];
-	dfsHelper(tree, animations, 0);
+	dfsHelper(goal, tree, animations, 0);
 	return animations;
 }
 
-function dfsHelper(tree, animations, index) {
+function dfsHelper(goal, tree, animations, index) {
 	if(index >= 0 && tree[index] != null) {
-		dfsHelper(tree, animations, getLeftChild(tree, index));
+		dfsHelper(goal, tree, animations, getLeftChild(tree, index));
 		animations.push(index);
-		dfsHelper(tree, animations, getRightChild(tree, index));
+		if(tree[index] === goal) 
+			return;
+		dfsHelper(goal, tree, animations, getRightChild(tree, index));
 	}
 }
 
@@ -29,10 +31,12 @@ function getRightChild(tree, index) {
 }
 
 
-export function getBfsAnimations(tree) {
+export function getBfsAnimations(tree, goal) {
 	const animations = [];
 	for(let i = 0; i < tree.length; i++) {
 		animations.push(i);
+		if(tree[i] === goal) 
+			break;
 	}
 	return animations;
 }
